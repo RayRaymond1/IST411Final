@@ -8,10 +8,10 @@
 </head>
 
 <body class = "bg-light">
-	<div class = "header bg-secondary">
+	<div class = "bg-secondary">
 		<h1 class = "text-white text-center fw-bold" >Jupiter</h1>
-		<div sec:authorize="hasRole('MANAGER')">
-		<a th:href="@{AddEmployee}"  class="btn btn-light " style = "margin-left: 25px;">Add Employee</a>
+		<div>
+			<a sec:authorize="hasRole('MANAGER')" th:href="@{AddEmployee}"  class="btn btn-success btn-lg " style = "margin-left: 25px;">Add Employee</a>
 		</div>
 		<hr>
 	</div>
@@ -51,12 +51,10 @@
 					   <td>[[${ob.emergencyName}]]</td>
 					   <td>[[${ob.emergencyNumber}]]</td>
 					   <td>
-						   <div sec:authorize="hasRole('ADMIN')">
-						   <a th:href="@{delete(id=${ob.empId})}" class="btn btn-danger btn-lg">Delete</a>
-						   </div>
-						   <div sec:authorize="hasRole('MANAGER')">
-						   <a th:href="@{edit(id=${ob.empId})}"  class="btn btn-warning btn-lg">Update</a>
-						   </div>
+						   
+						   <a sec:authorize="hasRole('ADMIN')" th:href="@{delete(id=${ob.empId})}" class="btn btn-danger">Delete</a>
+						   <a sec:authorize="hasRole('MANAGER')" th:href="@{updateEmployee(id=${ob.empId})}"  class="btn btn-warning">Update</a>
+						   
 						  
 					   </td>
 				   </tr>
@@ -72,12 +70,12 @@
 		
 		<h6 style = "margin-left: 15px;"><span sec:authentication="principal.authorities"></span></hh6>
 	</p>
-	
 	<!-- Add a logout button -->
-    <form class = "text-center"action="#" th:action="@{/logout}" method="POST">
+    		<form class = "text-left"action="#" th:action="@{/logout}" method="POST">
 
-        <input class = "btn btn-danger btn-lg"type="submit" value="Logout" />
-    </form>  
+        		<input class = "btn btn-danger btn-lg"type="submit" value="Logout" />
+    		</form>  
+	
 
 </body>
 </html>

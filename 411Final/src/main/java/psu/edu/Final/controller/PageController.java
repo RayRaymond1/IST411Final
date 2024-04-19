@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 import psu.edu.Final.entity.Employee;
 import psu.edu.Final.service.EmployeeService;
@@ -48,6 +50,25 @@ public class PageController {
         // Redirect to home
         return "redirect:/";
     }
+    //Get update page and employees information
+    @GetMapping("/updateEmployee")
+    public String getEdit(@RequestParam Integer id,Model model) {
+    	Employee emp = employeeService.findById(id);
+    	model.addAttribute("emp",emp);
+    	return "update";
+    }
+    @PostMapping("/updateEmp")
+	public String updateCustomer(@ModelAttribute Employee emp){
+		employeeService.updateEmployee(emp);
+		return "redirect:/";
+		
+	}
+    @GetMapping("/delete")
+    public String deleteEmployee(@RequestParam Integer id) {
+    	employeeService.deleteById(id);
+    	return "redirect:/";
+    }
+    
     
 
 	
