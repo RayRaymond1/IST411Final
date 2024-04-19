@@ -10,7 +10,9 @@
 <body class = "bg-light">
 	<div class = "header bg-secondary">
 		<h1 class = "text-white text-center fw-bold" >Jupiter</h1>
-		<button class = "btn btn-light" style = "margin-left: 25px;">Add Employee</button>
+		<div sec:authorize="hasRole('MANAGER')">
+		<a th:href="@{AddEmployee}"  class="btn btn-light " style = "margin-left: 25px;">Add Employee</a>
+		</div>
 		<hr>
 	</div>
     <h3 class = "text-center">Welcome <span class = "text-capitalize"sec:authentication="principal.username"></span>!!!!!</h3>
@@ -37,23 +39,23 @@
 					   <th>Emergency Number</th>
 				       <th>Operation</th>
 				   </tr>
-				   <tr th:each="ob:${employees}">
+				   <tr th:each="ob : ${employee_records}">
 					   <td>[[${ob.firstName}]]</td>
 					   <td>[[${ob.lastName}]]</td>
 					   <td>[[${ob.startDate}]]</td>
-					   <td>[[${ob.startSalary}]]</td>
-					   <td>$[[${ob.signedContract}]]</td>
+					   <td>$[[${ob.salary}]]</td>
+					   <td>[[${ob.signedContract}]]</td>
 					   <td>[[${ob.ssn}]]</td>
 					   <td>[[${ob.birthDate}]]</td>
-					   <td>$[[${ob.phoneNumber}]]</td>
-					   <td>[[${ob.emergencyContact}]]</td>
+					   <td>[[${ob.phoneNumber}]]</td>
+					   <td>[[${ob.emergencyName}]]</td>
 					   <td>[[${ob.emergencyNumber}]]</td>
 					   <td>
 						   <div sec:authorize="hasRole('ADMIN')">
-						   <a th:href="@{delete(id=${ob.empNo})}" class="btn btn-danger btn-lg">Delete</a>
+						   <a th:href="@{delete(id=${ob.empId})}" class="btn btn-danger btn-lg">Delete</a>
 						   </div>
 						   <div sec:authorize="hasRole('MANAGER')">
-						   <a th:href="@{edit(id=${ob.empNo})}"  class="btn btn-warning btn-lg">Update</a>
+						   <a th:href="@{edit(id=${ob.empId})}"  class="btn btn-warning btn-lg">Update</a>
 						   </div>
 						  
 					   </td>

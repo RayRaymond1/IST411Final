@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import psu.edu.Final.entity.Employee;
 import psu.edu.Final.service.EmployeeService;
@@ -15,74 +14,47 @@ import psu.edu.Final.service.EmployeeService;
 @Controller
 public class PageController {
 
-    @GetMapping("/")
-    public String showHome() {
-
-        return "home";
-    }
-   
 	private EmployeeService employeeService;
-    
+	
 	public PageController(EmployeeService theEmployeeService) {
         employeeService = theEmployeeService;
     }
-    
-	// add mapping for "/list"
-    
-	@GetMapping("/list")
-    public String listEmployees(Model theModel) {
-        
+	
+	@GetMapping("/")
+    public String showLanding() {
+		
+        return "landing";
+    }
+	
+    @GetMapping("/home")
+    public String showHome(Model theModel) {
 		// get the employees from db
         List<Employee> theEmployees = employeeService.findAll();
         
         // add to the spring model
-        theModel.addAttribute("employees", theEmployees);
-        return "employees/list-employees";
+        theModel.addAttribute("employee_records", theEmployees);
+        return "home";
     }
-	
-	@GetMapping("/showFormForAdd")
-	public String showFormForAdd(Model theModel) {
-		
+    @GetMapping("AddEmployee")
+    public String getAddForm(Model theModel) {
 		// create model attribute to bind form data
 		Employee theEmployee = new Employee();
 		
-		theModel.addAttribute("employee", theEmployee);
-		
-		return "employees/employee-form";
-	}
-	
-	@GetMapping("/showFormForUpdate")
-	public String showFormForUpdate(@RequestParam("employeeId") int theId, Model theModel) {
-		
-		// get the employee from the service
-		Employee theEmployee = employeeService.findById(theId);
-		
-		//set employee as a model attribute to pre-populate the form
-		theModel.addAttribute("employee", theEmployee);
-		
-		//send over to our form
-		
-		return "employees/employee-form";
-	}
-	
-	@PostMapping("/save")
-	public String saveEmployee(@ModelAttribute("employee") Employee theEmployee) {
-		
-		//save the employee
-		employeeService.save(theEmployee);
-		
-		// use a redirect to prevent duplicate submissions
-		return "redirect:/employees/list";
-	}
-	
-	@GetMapping("/delete")
-    public String delete(@RequestParam("employeeId") int theId) {
-        
-		// delete the employee
-        employeeService.deleteById(theId);
-        
-		// redirect to /employees/list
-        return "redirect:/employees/list";
+		theModel.addAttribute("employee_records", theEmployee);
+    	
+    	
+    	return "empAdd";
     }
+    
+    // New method to handle POST requests to /register
+    @PostMapping("/register")
+    public String registerEmployee(@ModelAttribute("employee") Employee theEmployee) {
+        // Save the employee 
+        employeeService.save(theEmployee);
+        // Redirect to home
+        return "redirect:/";
+    }
+    
+
 	
 }

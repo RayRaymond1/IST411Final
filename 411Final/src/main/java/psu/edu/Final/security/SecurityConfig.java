@@ -36,7 +36,8 @@ public class SecurityConfig {
     	
     	http.authorizeHttpRequests(configurer ->
     	configurer
-    				.requestMatchers("/").hasRole("EMPLOYEE") // for viewing their own details, allow other roles to see other people
+    				.requestMatchers("/").permitAll()
+    				.requestMatchers("/employees/**").hasRole("EMPLOYEE") // for viewing their own details, allow other roles to see other people
     				.requestMatchers("/employeeModify/**").hasRole("MANAGER") //managers can update information and create new people but CANNOT delete.
     				.requestMatchers("/employeeCreate/**").hasRole("ADMIN") //admins are the only one that can delete and create employees.
     				.anyRequest().authenticated()							//remember deletion is moving them to another table we DONT want to lose that data.
@@ -47,7 +48,10 @@ public class SecurityConfig {
     						.loginProcessingUrl("/authenticateTheUser")
     						.permitAll()
     			)
-    			.logout(logout -> logout.permitAll()    					
+    			.logout(logout -> 
+    					logout
+    					.permitAll()
+            			.logoutSuccessUrl("/") 					
     			)
     			.exceptionHandling(configurer ->
     						configurer.accessDeniedPage("/access-denied")		
