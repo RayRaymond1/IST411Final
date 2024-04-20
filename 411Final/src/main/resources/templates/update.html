@@ -18,6 +18,7 @@
 			   <h2 class="text-center">Update Employee</h2>
 			   <h3>Please Change Employee Information</h3>
 			   <form class="w-25" method="post" th:action="@{/updateEmp}" th:object="${emp}">
+				   <input type="hidden" th:field="*{empId}"/>
 				   First Name: <input type="text" th:field="*{firstName}" class="form-control" style = "margin-bottom: 10px;">
 				   Last Name: <input type="text" th:field="*{lastName}" class="form-control" style = "margin-bottom: 10px;">
 				   Start Date: <input type="date" th:field="*{startDate}" class="form-control" style = "margin-bottom: 10px;">
